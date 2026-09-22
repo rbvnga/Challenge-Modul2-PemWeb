@@ -1,3 +1,4 @@
+// Mengambil elemen dari HTML
 const questForm = document.getElementById("quest-form");
 const questInput = document.getElementById("quest-input");
 const priorityInput = document.getElementById("priority-input");
@@ -7,14 +8,15 @@ const questCount = document.getElementById("quest-count");
 const clearCompletedBtn = document.getElementById("clear-completed");
 
 const filterButtons = document.querySelectorAll(".filter button");
-const priorityFilterButtons = document.querySelectorAll(".priority-filter-btn");
+const priorityButtons = document.querySelectorAll(".priority-filter-btn");
 
-let statusFilter = "all";
+// Filter awal
+let statusFilter = "semua";
 let priorityFilter = "all";
 
-// ===============================
+// ======================================
 // TAMBAH QUEST
-// ===============================
+// ======================================
 
 questForm.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -22,184 +24,220 @@ questForm.addEventListener("submit", function (event) {
   const namaQuest = questInput.value.trim();
   const priority = priorityInput.value;
 
+  // Kalau input kosong, tidak melakukan apa-apa
   if (namaQuest === "") {
     return;
   }
 
+  // Membuat li
   const li = document.createElement("li");
 
-  li.classList.add("quest-item");
-  li.dataset.priority = priority;
-  li.dataset.completed = "false";
+  li.className = "quest-item";
 
-  const questText = document.createElement("span");
-  questText.textContent = namaQuest;
+  // Menyimpan status dan priority
+  li.setAttribute("priority", priority);
+  li.setAttribute("status", "belum");
 
-  const priorityText = document.createElement("span");
-  priorityText.textContent = priority;
-  priorityText.classList.add("priority");
+  // Membuat nama quest
+  const nama = document.createElement("span");
 
-  const selesaiButton = document.createElement("button");
-  selesaiButton.textContent = "Selesai";
-  selesaiButton.type = "button";
+  nama.textContent = namaQuest;
 
-  const hapusButton = document.createElement("button");
-  hapusButton.textContent = "Hapus";
-  hapusButton.type = "button";
+  // Membuat tulisan priority
+  const prioritas = document.createElement("span");
 
-  li.appendChild(questText);
-  li.appendChild(priorityText);
-  li.appendChild(selesaiButton);
-  li.appendChild(hapusButton);
+  prioritas.textContent = priority;
 
+  prioritas.className = "priority";
+
+  // Membuat tombol selesai
+  const tombolSelesai = document.createElement("button");
+
+  tombolSelesai.textContent = "Selesai";
+
+  tombolSelesai.type = "button";
+
+  // Membuat tombol hapus
+  const tombolHapus = document.createElement("button");
+
+  tombolHapus.textContent = "Hapus";
+
+  tombolHapus.type = "button";
+
+  // Memasukkan semuanya ke li
+  li.appendChild(nama);
+
+  li.appendChild(prioritas);
+
+  li.appendChild(tombolSelesai);
+
+  li.appendChild(tombolHapus);
+
+  // Memasukkan li ke ul
   questList.appendChild(li);
 
-  // Tombol selesai
-  selesaiButton.addEventListener("click", function () {
-    if (li.dataset.completed === "false") {
-      li.dataset.completed = "true";
-      li.classList.add("completed");
+  // ======================================
+  // TOMBOL SELESAI
+  // ======================================
 
-      questText.style.textDecoration = "line-through";
-      selesaiButton.textContent = "Batal";
+  tombolSelesai.addEventListener("click", function () {
+    const status = li.getAttribute("status");
+
+    if (status === "belum") {
+      li.setAttribute("status", "selesai");
+
+      nama.style.textDecoration = "line-through";
+
+      tombolSelesai.textContent = "Batal";
     } else {
-      li.dataset.completed = "false";
-      li.classList.remove("completed");
+      li.setAttribute("status", "belum");
 
-      questText.style.textDecoration = "none";
-      selesaiButton.textContent = "Selesai";
+      nama.style.textDecoration = "none";
+
+      tombolSelesai.textContent = "Selesai";
     }
 
-    updateQuest();
+    updateTampilan();
   });
 
-  // Tombol hapus
-  hapusButton.addEventListener("click", function () {
+  // ======================================
+  // TOMBOL HAPUS
+  // ======================================
+
+  tombolHapus.addEventListener("click", function () {
     li.remove();
 
-    updateQuest();
+    updateTampilan();
   });
 
+  // Mengosongkan input
   questInput.value = "";
 
-  updateQuest();
+  updateTampilan();
 });
 
-// ===============================
+// ======================================
 // FILTER STATUS
-// ===============================
+// ======================================
 
-filterButtons.forEach(function (button, index) {
-  button.addEventListener("click", function () {
-    if (index === 0) {
-      statusFilter = "all";
-    } else if (index === 1) {
-      statusFilter = "unfinished";
-    } else if (index === 2) {
-      statusFilter = "completed";
+for (let i = 0; i < filterButtons.length; i++) {
+  filterButtons[i].addEventListener("click", function () {
+    // Tombol pertama = Semua
+    if (i === 0) {
+      statusFilter = "semua";
     }
 
-    filterButtons.forEach(function (btn) {
-      btn.classList.remove("btn-filter-active");
-      btn.classList.add("btn-filter");
-    });
+    // Tombol kedua = Belum Selesai
+    if (i === 1) {
+      statusFilter = "belum";
+    }
 
-    button.classList.remove("btn-filter");
-    button.classList.add("btn-filter-active");
+    // Tombol ketiga = Selesai
+    if (i === 2) {
+      statusFilter = "selesai";
+    }
 
-    updateQuest();
+    updateTampilan();
   });
-});
+}
 
-// ===============================
+// ======================================
 // FILTER PRIORITY
-// ===============================
+// ======================================
 
-priorityFilterButtons.forEach(function (button) {
-  button.addEventListener("click", function () {
-    priorityFilter = button.dataset.priority;
+for (let i = 0; i < priorityButtons.length; i++) {
+  priorityButtons[i].addEventListener("click", function () {
+    priorityFilter = priorityButtons[i].getAttribute("data-priority");
 
-    priorityFilterButtons.forEach(function (btn) {
-      btn.classList.remove("active");
-    });
-
-    button.classList.add("active");
-
-    updateQuest();
+    updateTampilan();
   });
-});
+}
 
-// ===============================
-// HAPUS QUEST YANG SELESAI
-// ===============================
+// ======================================
+// HAPUS SEMUA YANG SUDAH SELESAI
+// ======================================
 
 clearCompletedBtn.addEventListener("click", function () {
-  const questItems = document.querySelectorAll(".quest-item");
+  const semuaQuest = document.querySelectorAll(".quest-item");
 
-  questItems.forEach(function (item) {
-    if (item.dataset.completed === "true") {
-      item.remove();
+  for (let i = 0; i < semuaQuest.length; i++) {
+    const status = semuaQuest[i].getAttribute("status");
+
+    if (status === "selesai") {
+      semuaQuest[i].remove();
     }
-  });
+  }
 
-  updateQuest();
+  updateTampilan();
 });
 
-// ===============================
+// ======================================
 // UPDATE TAMPILAN
-// ===============================
+// ======================================
 
-function updateQuest() {
-  const questItems = document.querySelectorAll(".quest-item");
+function updateTampilan() {
+  const semuaQuest = document.querySelectorAll(".quest-item");
 
-  let questTersisa = 0;
-  let questTerlihat = 0;
+  let jumlahBelumSelesai = 0;
+  let jumlahTerlihat = 0;
 
-  questItems.forEach(function (item) {
-    const completed = item.dataset.completed === "true";
-    const priority = item.dataset.priority;
+  for (let i = 0; i < semuaQuest.length; i++) {
+    const quest = semuaQuest[i];
 
-    // Hitung quest yang belum selesai
-    if (!completed) {
-      questTersisa++;
+    const status = quest.getAttribute("status");
+
+    const priority = quest.getAttribute("priority");
+
+    // Menghitung quest yang belum selesai
+    if (status === "belum") {
+      jumlahBelumSelesai++;
     }
 
-    let tampilStatus = true;
-    let tampilPriority = true;
+    let tampil = true;
 
     // Filter status
-    if (statusFilter === "unfinished" && completed) {
-      tampilStatus = false;
-    }
-
-    if (statusFilter === "completed" && !completed) {
-      tampilStatus = false;
+    if (statusFilter !== "semua") {
+      if (status !== statusFilter) {
+        tampil = false;
+      }
     }
 
     // Filter priority
-    if (priorityFilter !== "all" && priority !== priorityFilter) {
-      tampilPriority = false;
+    if (priorityFilter !== "all") {
+      if (priority !== priorityFilter) {
+        tampil = false;
+      }
     }
 
-    // Tampilkan / sembunyikan
-    if (tampilStatus && tampilPriority) {
-      item.style.display = "";
-      questTerlihat++;
+    // Tampilkan atau sembunyikan quest
+    if (tampil === true) {
+      quest.style.display = "";
+
+      jumlahTerlihat++;
     } else {
-      item.style.display = "none";
+      quest.style.display = "none";
     }
-  });
+  }
 
-  questCount.textContent = questTersisa + " quest tersisa";
+  // Mengubah jumlah quest tersisa
+  questCount.textContent = jumlahBelumSelesai + " quest tersisa";
 
-  // Empty state
-  if (questItems.length === 0) {
+  // Kalau belum ada quest
+  if (semuaQuest.length === 0) {
     emptyState.textContent = "Belum ada quest. Chill dulu";
+
     emptyState.style.display = "block";
-  } else if (questTerlihat === 0) {
+  }
+
+  // Kalau ada quest, tetapi tidak sesuai filter
+  else if (jumlahTerlihat === 0) {
     emptyState.textContent = "Tidak ada quest di filter ini";
+
     emptyState.style.display = "block";
-  } else {
+  }
+
+  // Kalau ada quest yang ditampilkan
+  else {
     emptyState.style.display = "none";
   }
 }
