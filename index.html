@@ -29,21 +29,21 @@
             <option value="medium" selected>Medium</option>
             <option value="high">High</option>
             </select>
-            
+
             <button type="submit" class="btn-tambahkan">+ tambahkan</button>
         </form>
 
         <div class="filter">
-            <button class="btn-filter-active">Semua</button>
-            <button class="btn-filter">Belum Selesai</button>
-            <button class="btn-filter">Selesai</button>
+            <button type="button" class="btn-filter-active">Semua</button>
+            <button type="button" class="btn-filter">Belum Selesai</button>
+            <button type="button" class="btn-filter">Selesai</button>
         </div>
 
         <div class="filters priority-filters">
-            <button class="priority-filter-btn active" data-priority="all">Semua Prioritas</button>
-            <button class="priority-filter-btn" data-priority="low">Low</button>
-            <button class="priority-filter-btn" data-priority="medium">Medium</button>
-            <button class="priority-filter-btn" data-priority="high">High</button>
+            <button type="button" class="priority-filter-btn active" data-priority="all">Semua Prioritas</button>
+            <button type="button" class="priority-filter-btn" data-priority="low">Low</button>
+            <button type="button" class="priority-filter-btn" data-priority="medium">Medium</button>
+            <button type="button" class="priority-filter-btn" data-priority="high">High</button>
         </div>
         
         <ul id="quest-list" class="quest-list">    
@@ -53,7 +53,7 @@
 
         <footer class="box-footer">
             <span id="quest-count">0 quest tersisa</span>
-            <button id="clear-completed" class="btn-clear">Hapus yang Selesai</button>
+            <button id="clear-completed" type="button" class="btn-clear">Hapus yang Selesai</button>
         </footer>
     </div>
     <script src="script.js"></script>
