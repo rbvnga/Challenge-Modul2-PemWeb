@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Challenge 2</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="box">
+        <header>
+            <h1>
+                Daily Quest
+            </h1>
+            <p>Hari ini kamu punya misi apa?</p>
+        </header>
+
+        <form id="quest-form" class="quest-form">
+            <input 
+            type="string"
+            id="quest-input"
+            placeholder="Ada quest apa nih hari ini?"
+            autocomplete="off"
+            >        
+
+            <select id="priority-input" class="priority-select">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+            </select>
+            
+            <button type="submit" class="btn-tambahkan">+ tambahkan</button>
+        </form>
+
+        <div class="filter">
+            <button class="btn-filter-active">Semua</button>
+            <button class="btn-filter">Belum Selesai</button>
+            <button class="btn-filter">Selesai</button>
+        </div>
+
+        <div class="filters priority-filters">
+            <button class="priority-filter-btn active" data-priority="all">Semua Prioritas</button>
+            <button class="priority-filter-btn" data-priority="low">Low</button>
+            <button class="priority-filter-btn" data-priority="medium">Medium</button>
+            <button class="priority-filter-btn" data-priority="high">High</button>
+        </div>
+        
+        <ul id="quest-list" class="quest-list">    
+        </ul>
+        
+        <p class="empty-state">Belum ada quest. Chill dulu</p>
+
+        <footer class="box-footer">
+            <span id="quest-count">0 quest tersisa</span>
+            <button id="clear-completed" class="btn-clear">Hapus yang Selesai</button>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
