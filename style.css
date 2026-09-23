@@ -91,7 +91,7 @@ header p {
 }
 
 .btn-filter,
-.btn-filter-active {
+.btn-filter.active {
   flex: 1;
   border: none;
   border-radius: 8px;
@@ -103,7 +103,7 @@ header p {
   color: #7c3aed;
 }
 
-.btn-filter-active {
+.btn-filter.active {
   background: #7c3aed;
   color: #fff;
 }

@@ -7,7 +7,7 @@ const emptyState = document.querySelector(".empty-state");
 const questCount = document.getElementById("quest-count");
 const clearCompletedBtn = document.getElementById("clear-completed");
 
-const filterButtons = document.querySelectorAll(".filter button");
+const filterButtons = document.querySelectorAll(".btn-filter");
 const priorityButtons = document.querySelectorAll(".priority-filter-btn");
 
 // Filter awal
@@ -137,6 +137,11 @@ for (let i = 0; i < filterButtons.length; i++) {
       statusFilter = "selesai";
     }
 
+    for(let j=0; j < filterButtons.length; j++){
+      filterButtons[j].classList.remove("active");
+    }
+    filterButtons[i].classList.add("active");
+
     updateTampilan();
   });
 }
@@ -149,6 +154,10 @@ for (let i = 0; i < priorityButtons.length; i++) {
   priorityButtons[i].addEventListener("click", function () {
     priorityFilter = priorityButtons[i].getAttribute("data-priority");
 
+    for (let j = 0; j < priorityButtons.length; j++){
+      priorityButtons[j].classList.remove("active");
+    }
+    priorityButtons[i].classList.add("active")
     updateTampilan();
   });
 }
